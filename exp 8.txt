@@ -1,3 +1,4 @@
+VIEWS AND AUTHORIZATION 
 Q) create a view to select employee_name and id as well as course details which he is teaching in 
 
 mysql> create view teacher_temp
@@ -20,3 +21,27 @@ mysql> select * from teacher_temp;
 Q) Delete the view teacher_temp.
 mysql> drop view teacher_temp;
 Query OK, 0 rows affected (0.00 sec)
+
+Q)Creating Users and Granting Priveleges
+mysql> grant usage on *.* to admin@localhost identified by 'pass@123';
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> select user from mysql.user;
++-----------+
+| user      |
++-----------+
+| admin     |
+| mysql.sys |
+| root      |
++-----------+
+3 rows in set (0.02 sec)
+
+mysql> grant all privileges on college_management to admin@localhost;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> grant select,insert,update,delete,create,drop on college_management.* to
+admin@localhost;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> REVOKE ALL PRIVILEGES, GRANT OPTION FROM admin@localhost ;
+Query OK, 0 rows affected (0.02 sec)

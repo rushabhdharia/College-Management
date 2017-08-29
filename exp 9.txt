@@ -1,0 +1,76 @@
+Triggers
+
+Q) Create a trigger that sets salary = 30000 if salary is null when a new employee is inserted.
+delimiter //
+
+create trigger salcheck
+before 
+before insert on employee
+
+for each row
+
+if new.salary is null
+
+then set new.salary = 30000;
+end if;
+
+//
+Query OK, 0 rows affected (0.08 sec)
+
+Q) Create a trigger that enters the new employee to the employee bkp
+delimiter //
+create trigger feed_employee_bkp
+after insert on employee
+ FOR EACH ROW 
+ insert into employee_bkp(employee_name,salary,works_for_dno) values
+(NEW.employee_name, new.salary,new.works_for_dno);
+  //
+
+Q) Create a trigger that sets the department number of employee as 1 if dno  is null when a new employee is inserted
+delimiter //
+create trigger employeetrig
+before update on employee
+for each row
+if new.works_for_dno is null then
+set new.works_for_dno= 01;
+end if;
+//
+
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> create table employee_bkp
+    -> (employee_name varchar(20),
+    -> salary int,
+    -> works_for_dno int);
+Query OK, 0 rows affected (0.39 sec)
+
+mysql> insert into employee
+    values
+    (641407,'RLB','1996-11-26',1,null,null);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select *
+    -> from employee
+    -> where employee_id=641407
+    -> ;
+mysql> select *
+    -> from employee
+    -> where employee_id = 641407;
++-------------+---------------+------------+--------+--------+---------------+
+| employee_id | employee_name | start_date | col_id | salary | works_for_dno |
++-------------+---------------+------------+--------+--------+---------------+
+|      641407 | RLB           | 1996-11-26 |      1 |  30000 |             1 |
++-------------+---------------+------------+--------+--------+---------------+
+1 row in set (0.02 sec)
+
+
+
+Query OK, 0 rows affected (0.08 sec)
+mysql> select *
+    -> from employee_bkp;
++---------------+--------+---------------+
+| employee_name | salary | works_for_dno |
++---------------+--------+---------------+
+| RLB           |  30000 |          NULL |
++---------------+--------+---------------+
+1 row in set (0.00 sec)
