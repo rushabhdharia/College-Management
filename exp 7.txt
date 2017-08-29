@@ -1,0 +1,103 @@
+Q) find the  employees names from employees who are teachers;
+mysql> select employee_name
+    -> from employee
+    -> where employee_id in (select t_emp_id from teaching_staff);
++---------------+
+| employee_name |
++---------------+
+| RMB           |
+| GD            |
+| RAD           |
+| CNJ           |
+| NBJ           |
++---------------+
+5 rows in set (0.00 sec)
+
+
+Q) find the  employees names from employees who are not teachers;
+mysql> select employee_name
+    -> from employee
+    -> where employee_id not in(select t_emp_id from teaching_staff);
++---------------+
+| employee_name |
++---------------+
+| PB            |
+| KD            |
+| VM            |
+| DPM           |
+| NP            |
++---------------+
+5 rows in set (0.03 sec)
+
+Q) find the roll_no of students who have attendance greater than at least one student in the subject of oop.
+mysql> select roll_no
+    -> from attendance
+    -> where percentage > any (select percentage
+    -> from attendance
+    -> where course_name='OOP');
++---------+
+| roll_no |
++---------+
+|       8 |
+|      18 |
+|      32 |
++---------+
+3 rows in set (0.00 sec)
+
+
+Q) find the id of teachers who teach in the first year
+mysql> select t_emp_id
+    -> from teaching_staff
+    -> where exists(select *
+    -> from course
+    -> where teaching_staff.t_emp_id=course.teacher_id);
++----------+
+| t_emp_id |
++----------+
+|   641418 |
+|   641432 |
++----------+
+2 rows in set (0.00 sec)
+
+Q) find the id of teachers who do not teach in the first year;
+line 4
+mysql> select t_emp_id
+    -> from teaching_staff
+    -> where not exists(select *
+    -> from course
+    -> where teaching_staff.t_emp_id=course.teacher_id);
++----------+
+| t_emp_id |
++----------+
+|   641408 |
+|   641413 |
+|   641429 |
++----------+
+3 rows in set (0.00 sec)
+
+Q) create a backup of attendance table by copying all records of attendance to a new table attenance_bkp
+
+mysql> create table attendance_bkp
+    -> ( roll_no int,
+    -> course_name varchar(20),
+    -> percentage int,
+    -> stu_id int);
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> insert into attendance_bkp
+    -> select * from attendance;
+Query OK, 6 rows affected (0.03 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from attendance_bkp;
++---------+-------------+------------+----------+
+| roll_no | course_name | percentage | stu_id   |
++---------+-------------+------------+----------+
+|       8 | Maths 1     |         75 | 64140008 |
+|      18 | Maths 1     |         85 | 64140018 |
+|      29 | Maths 1     |         50 | 64140029 |
+|      30 | OOP         |         70 | 64140029 |
+|      32 | Maths 1     |         72 | 64140032 |
+|      57 | Maths 1     |         68 | 64140057 |
++---------+-------------+------------+----------+
+6 rows in set (0.00 sec)

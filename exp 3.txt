@@ -1,0 +1,369 @@
+Q) To create a database
+CREATE database college_management;
+Query OK, 1 row affected (0.00 sec)
+
+Q) To show all existing databases
+show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| college_management |
+| cricket            |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+Q) To select existing Database
+use college_management;
+Database changed
+
+Q) To Create table college and desribe it
+
+create table college(
+college_id int primary key,
+college_name varchar(20),
+principal_name varchar(20)
+);
+Query OK, 0 rows affected (0.44 sec)
+
+mysql> desc college;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| college_id     | int(11)     | NO   | PRI | NULL    |       |
+| college_name   | varchar(20) | YES  |     | NULL    |       |
+| principal_name | varchar(20) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+Q) To Create table department and desribe it
+
+create table department(
+dept_id int primary key,
+dept_name varchar(20),
+hod_name varchar(20),
+intake int,
+c_id int,
+foreign key(c_id) references college(college_id)
+);
+Query OK, 0 rows affected (0.66 sec)
+
+desc department;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | int(11)     | NO   | PRI | NULL    |       |
+| dept_name | varchar(20) | YES  |     | NULL    |       |
+| hod_name  | varchar(20) | YES  |     | NULL    |       |
+| intake    | int(11)     | YES  |     | NULL    |       |
+| c_id      | int(11)     | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.09 sec)
+
+Q) To Create table course and desribe it
+
+create table course(
+course_id int primary key,
+course_name varchar(20),
+no_of_credit_hours int
+);
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> desc course;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| course_id          | int(11)     | NO   | PRI | NULL    |       |
+| course_name        | varchar(20) | YES  |     | NULL    |       |
+| no_of_credit_hours | int(11)     | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+Q) To Create table offers and desribe it
+
+create table offers(
+co_id int,
+d_id int,
+foreign key(co_id) references college(college_id),
+foreign key(d_id) references department(dept_id)
+);
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> desc offers;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| co_id | int(11) | YES  | MUL | NULL    |       |
+| d_id  | int(11) | YES  | MUL | NULL    |       |
++-------+---------+------+-----+---------+-------+
+2 rows in set (0.05 sec)
+
+Q) To Create table student and desribe it
+
+create table student(
+student_id int primary key,
+student_name varchar(20),
+birthdate date,
+gender char 
+);
+Query OK, 0 rows affected (0.31 sec)
+
+mysql> desc student;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| student_id   | int(11)     | NO   | PRI | NULL    |       |
+| student_name | varchar(20) | YES  |     | NULL    |       |
+| birthdate    | date        | YES  |     | NULL    |       |
+| gender       | char(1)     | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+Q) To Create table enrolls and desribe it
+
+create table enrolls(
+st_id int,
+cou_id int,
+foreign key(st_id) references student(student_id),
+foreign key(cou_id) references course(course_id)
+);
+Query OK, 0 rows affected (0.39 sec)
+
+mysql> desc enrolls;
++--------+---------+------+-----+---------+-------+
+| Field  | Type    | Null | Key | Default | Extra |
++--------+---------+------+-----+---------+-------+
+| st_id  | int(11) | YES  | MUL | NULL    |       |
+| cou_id | int(11) | YES  | MUL | NULL    |       |
++--------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+Q) To Create table attendance and desribe it
+
+create table attendance(
+roll_no int primary key,
+course_name varchar(20),
+percentage int,
+stu_id int,
+foreign key(stu_id) references student(student_id)
+);
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> desc attendance;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| roll_no     | int(11)     | NO   | PRI | NULL    |       |
+| course_name | varchar(20) | YES  |     | NULL    |       |
+| percentage  | int(11)     | YES  |     | NULL    |       |
+| stu_id      | int(11)     | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+Q) To Create table employee and desribe it
+
+create table employee(
+employee_name varchar(20),
+start_date date,
+col_id int,
+foreign key(col_id) references college(college_id)
+);
+Query OK, 0 rows affected (2.66 sec)
+
+mysql> desc employee;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| employee_name | varchar(20) | YES  |     | NULL    |       |
+| start_date    | date        | YES  |     | NULL    |       |
+| col_id        | int(11)     | YES  | MUL | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+Q) Add primary key employee_id to the table employee and then describe it
+
+mysql> alter table employee add employee_id int;
+Query OK, 0 rows affected (0.89 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add primary key(employee_id);
+Query OK, 0 rows affected (0.56 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| employee_name | varchar(20) | YES  |     | NULL    |       |
+| start_date    | date        | YES  |     | NULL    |       |
+| col_id        | int(11)     | YES  | MUL | NULL    |       |
+| employee_id   | int(11)     | NO   | PRI | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+Q) Delete table employee and then show all existing tables
+
+drop table employee;
+Query OK, 0 rows affected (0.36 sec)
+
+show tables ;
++------------------------------+
+| Tables_in_college_management |
++------------------------------+
+| attendance                   |
+| college                      |
+| course                       |
+| department                   |
+| enrolls                      |
+| offers                       |
+| student                      |
++------------------------------+
+7 rows in set (0.00 sec)
+
+Q) To Create table teaching_staff and desribe it
+
+create table teaching_staff(
+t_emp_id int
+);
+Query OK, 0 rows affected (0.41 sec)
+
+desc teaching_staff;
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| t_emp_id | int(11) | YES  |     | NULL    |       |
++----------+---------+------+-----+---------+-------+
+1 row in set (0.02 sec)
+
+Q) Let t_emp_id be a foreign key and let it refer to the employee_id. Also add a column qualification and then describe the teaching_staff table.
+
+alter table teaching_staff
+ add foreign key(t_emp_id) references employee(employee_id),
+ add column(qualification varchar(20));
+Query OK, 0 rows affected (1.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc teaching_staff;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| t_emp_id      | int(11)     | YES  | MUL | NULL    |       |
+| qualification | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+2 rows in set (0.02 sec) 
+
+Q) To Create table non_teaching_staff and desribe it
+
+create table non_teaching_staff(
+no_t_emp_id int,
+typing_speed int
+);
+mysql> desc non_teaching_staff;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| no_t_emp_id  | int(11) | YES  |     | NULL    |       |
+| typing_speed | int(11) | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+Q) change name of no_t_emp_id to non_t_emp_id. Also make it a foriegn key and refer it to employee_id and then descibe the table.
+
+alter table non_teaching_staff
+change no_t_emp_id non_t_emp_id int;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+alter table non_teaching_staff
+add foreign key(non_t_emp_id) references employee(employee_id);
+Query OK, 0 rows affected (0.81 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+desc non_teaching_staff;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| non_t_emp_id | int(11) | YES  | MUL | NULL    |       |
+| typing_speed | int(11) | YES  |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+Q) To Create exam college and desribe it
+
+create table exam(
+exam_title varchar(20) primary key,
+e_course_name varchar(20),
+marks int,
+roll_no int
+);
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> desc exam;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| exam_title    | varchar(20) | NO   | PRI | NULL    |       |
+| e_course_name | varchar(20) | YES  |     | NULL    |       |
+| marks         | int(11)     | YES  |     | NULL    |       |
+| roll_no       | int(11)     | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+Q) To Create table conducts and desribe it
+
+create table conducts(
+t_id int,
+ex_title varchar(20),
+foreign key(t_id) references teaching_staff(t_emp_id),
+foreign key(ex_title) references exam(exam_title)
+);
+
+desc conducts;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| t_id     | int(11)     | YES  | MUL | NULL    |       |
+| ex_title | varchar(20) | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+Q) To Create table teach and desribe it
+create table teach(
+cour_id int,
+teacher_id int,
+foreign key(cour_id) references course(course_id),
+foreign key(teacher_id) references teaching_staff(t_emp_id)
+);
+
+Query OK, 0 rows affected (0.28 sec)
+
+Q) Rename table teach to teaches and then show display all tables
+alter table teach rename teaches;
+Query OK, 0 rows affected (0.19 sec)
+
+show tables;
++------------------------------+
+| Tables_in_college_management |
++------------------------------+
+| attendance                   |
+| college                      |
+| conducts                     |
+| course                       |
+| department                   |
+| employee                     |
+| enrolls                      |
+| exam                         |
+| non_teaching_staff           |
+| offers                       |
+| student                      |
+| teaches                      |
+| teaching_staff               |
++------------------------------+
+13 rows in set (0.00 sec)

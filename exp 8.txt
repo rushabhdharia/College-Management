@@ -1,0 +1,22 @@
+Q) create a view to select employee_name and id as well as course details which he is teaching in 
+
+mysql> create view teacher_temp
+    -> as select t_emp_id,course_name,course_id
+    -> from teaching_staff, course
+    -> where teaching_staff.t_emp_id=course.teacher_id
+    -> group by course.teacher_id;
+Query OK, 0 rows affected (0.06 sec)
+
+Q) Display all records of a view.
+mysql> select * from teacher_temp;
++----------+-------------+-----------+
+| t_emp_id | course_name | course_id |
++----------+-------------+-----------+
+|   641418 | Intro to CS |       101 |
+|   641432 | Maths 1     |       102 |
++----------+-------------+-----------+
+2 rows in set (0.02 sec)
+
+Q) Delete the view teacher_temp.
+mysql> drop view teacher_temp;
+Query OK, 0 rows affected (0.00 sec)

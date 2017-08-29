@@ -1,0 +1,69 @@
+Q) List the union of college name and department name
+mysql> select college_name from college
+    -> union
+    -> select dept_name from department;
++----------------------+
+| college_name         |
++----------------------+
+| DJ Sanghvi COE       |
+| TSEC                 |
+| KC                   |
+| Jai Hind             |
+| Gbms                 |
+| Computer Engineering |
+| Information Tech.    |
+| Production           |
+| Mechanical           |
+| Bio Med              |
++----------------------+
+10 rows in set (0.08 sec)
+
+Q) List  ids and  names of employees who are teachers.
+mysql> select employee_id, employee_name
+    -> from employee
+    -> join teaching_staff on teaching_staff.t_emp_id=employee.employee_id;
++-------------+---------------+
+| employee_id | employee_name |
++-------------+---------------+
+|      641408 | RMB           |
+|      641413 | GD            |
+|      641418 | RAD           |
+|      641429 | CNJ           |
+|      641432 | NBJ           |
++-------------+---------------+
+5 rows in set (0.08 sec)
+
+Q) List  ids and  names of employees who are teachers or not.
+mysql> select employee_id, employee_name
+    -> from employee
+    -> left outer join teaching_staff on teaching_staff.t_emp_id=employee.employee_id;
++-------------+---------------+
+| employee_id | employee_name |
++-------------+---------------+
+|      641408 | RMB           |
+|      641409 | PB            |
+|      641413 | GD            |
+|      641418 | RAD           |
+|      641419 | KD            |
+|      641429 | CNJ           |
+|      641432 | NBJ           |
+|      641451 | VM            |
+|      641457 | DPM           |
+|      641478 | NP            |
++-------------+---------------+
+10 rows in set (0.00 sec)
+
+RIGHT OUTER JOIN
+mysql> select employee_id, employee_name
+    -> from employee
+    -> right outer join teaching_staff on teaching_staff.t_emp_id=employee.employee_id;
++-------------+---------------+
+| employee_id | employee_name |
++-------------+---------------+
+|      641408 | RMB           |
+|      641413 | GD            |
+|      641418 | RAD           |
+|      641429 | CNJ           |
+|      641432 | NBJ           |
++-------------+---------------+
+5 rows in set (0.03 sec)
